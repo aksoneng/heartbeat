@@ -1,7 +1,7 @@
 #include "heartbeat.h"
 
 // PUBLIC
-Heartbeat::Heartbeat(unsigned short int led, bool invert =false){
+Heartbeat::Heartbeat(unsigned short int led, bool invert){
   if(invert){
     _on =0;
     _off =1;
