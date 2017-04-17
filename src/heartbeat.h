@@ -2,7 +2,7 @@
 #define __HEARTBEAT_H
 
 // This particular Timer library, because it supports nesting timers inside a class: https://github.com/thomo/Timer
-#include "Timer.h"
+#include "Timer.h" //https://github.com/thomo/Timer
 #include "Arduino.h"
 
 #define _SLOW       0
@@ -10,7 +10,7 @@
 
 class Heartbeat{
 public:
-	Heartbeat(unsigned short int led);
+	Heartbeat(unsigned short int led, bool invert);
 	void update();
 	void set_pace(unsigned short int pace);
 	void start();
@@ -30,6 +30,8 @@ private:
   unsigned short int _pattern[4] = {50, 200, 50, 750};
   unsigned short int _patternLength = sizeof(_pattern)/sizeof(_pattern[0]);
   unsigned short int _index =0;
+  unsigned short int _on =1;
+  unsigned short int _off =0;
 };
 
 #endif

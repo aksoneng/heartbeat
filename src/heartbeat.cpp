@@ -1,7 +1,11 @@
 #include "heartbeat.h"
 
 // PUBLIC
-Heartbeat::Heartbeat(unsigned short int led){
+Heartbeat::Heartbeat(unsigned short int led, bool invert =false){
+  if(invert){
+    _on =0;
+    _off =1;
+  }
   set_led(led);
   set_pace(_SLOW);
 }
@@ -41,9 +45,9 @@ void Heartbeat::set_led(unsigned short int led){
 }
 
 void Heartbeat::led_on(){
-  digitalWrite(_led, HIGH);
+  digitalWrite(_led, _on);
 }
 
 void Heartbeat::led_off(){
-  digitalWrite(_led, LOW);
+  digitalWrite(_led, _off);
 }
