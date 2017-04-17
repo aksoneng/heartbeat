@@ -10,7 +10,7 @@
 
 class Heartbeat{
 public:
-	Heartbeat(unsigned short int led, bool invert);
+	Heartbeat(unsigned short int led, bool invert =false);
 	void update();
 	void set_pace(unsigned short int pace);
 	void start();
