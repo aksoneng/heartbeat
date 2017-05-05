@@ -1,20 +1,53 @@
 #include "heartbeat.h"
 
 // PUBLIC
-Heartbeat::Heartbeat(unsigned short int led, bool invert){
+Heartbeat::Heartbeat(unsigned char led, bool invert){
   if(invert){
     _on =0;
     _off =1;
   }
   set_led(led);
-  set_pace(_SLOW);
+  set_pace(_HEARTBEAT_SLOW);
 }
 
-void Heartbeat::set_pace(unsigned short int pace){
-  _pace =pace;
+Heartbeat::Heartbeat(unsigned char led){
+  set_led(led);
+  set_pace(_HEARTBEAT_SLOW);
 }
 
+void Heartbeat::set_pace(unsigned char pace){
+  switch(pace){
+    case _HEARTBEAT_FAST:
+      _pace =_HEARTBEAT_FAST;
+      break;
+    case _HEARTBEAT_SLOW:
+      _pace =_HEARTBEAT_SLOW;
+      break;
+    default:
+      Serial.print(F("Unknown heartbeat pace: "));
+      Serial.println(pace);
+      break;
+  }
+}
+
+void Heartbeat::set_strength(unsigned char strength){
+  switch(strength){
+    case _HEARTBEAT_STRONG:
+      _strength =_HEARTBEAT_STRONG;
+      break;
+    case _HEARTBEAT_WEAK:
+      _strength =_HEARTBEAT_WEAK;
+      break;
+    default:
+      Serial.print(F("Unknown heartbeat strength: "));
+      Serial.println(strength);
+      break;
+  }
+}
+
+// PRIVATE
 void Heartbeat::start(){
+  _index =0;
   beat();
 }
 
@@ -28,18 +61,25 @@ void Heartbeat::update(){
 }
 
 // PRIVATE
-void Heartbeat::_callbackBeat(void *context)
+void Heartbeat::_beat_cb(void *context)
 {
   ((Heartbeat *)context)->beat();
 }
 
 void Heartbeat::beat(){
-  _index%2 ==0 ? led_on() : led_off();
-  _beat_job =_beat_t.after(_pattern[_index]>>_pace, _callbackBeat, this);
-  _index >=(_patternLength-1) ? _index =0 : _index++;
+  if(_index %2){
+    led_on();
+    _beat_job =_beat_t.after(_strength, _beat_cb, this);
+  }
+  else {
+    led_off();
+    _beat_job =_beat_t.after(_pattern[_index>>1]>>_pace, _beat_cb, this);
+    Serial.println(_pattern[_index>>1]>>_pace);
+  }
+  _index >=(2*_patternLength-1) ? _index =0 : _index++;
 }
 
-void Heartbeat::set_led(unsigned short int led){
+void Heartbeat::set_led(unsigned char led){
   _led =led;
   pinMode(led, OUTPUT);
 }
