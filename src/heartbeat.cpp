@@ -74,7 +74,6 @@ void Heartbeat::beat(){
   else {
     led_off();
     _beat_job =_beat_t.after(_pattern[_index>>1]>>_pace, _beat_cb, this);
-    Serial.println(_pattern[_index>>1]>>_pace);
   }
   _index >=(2*_patternLength-1) ? _index =0 : _index++;
 }
