@@ -45,9 +45,36 @@ void Heartbeat::set_strength(unsigned char strength){
   }
 }
 
+void Heartbeat::set_beat(unsigned char beats){
+  if(beats >0 && beats <=255){
+    _beats =beats;
+  }
+  else{
+    Serial.print(F("Beats must be >1 && <=255 !"));
+  }
+}
+
+void Heartbeat::add_beat(){
+  if(_beats <255){
+    _beats++;
+  }
+  else{
+    Serial.print(F("Cannot have more than 255 beats !"));
+  }
+}
+
+void Heartbeat::remove_beat(){
+  if(_beats >=2){
+    _beats--;
+  }
+  else{
+    Serial.print(F("Cannot remove last beat !"));
+  }
+}
+
 // PRIVATE
 void Heartbeat::start(){
-  _index =0;
+  _index =1;
   beat();
 }
 
@@ -73,14 +100,19 @@ void Heartbeat::beat(){
   }
   else {
     led_off();
-    _beat_job =_beat_t.after(_pattern[_index>>1]>>_pace, _beat_cb, this);
+    if((_index>>1) >=_beats){
+      _beat_job =_beat_t.after(_HEARTBEAT_SYSTOLE>>_pace, _beat_cb, this);
+    }
+    else{
+      _beat_job =_beat_t.after(_HEARTBEAT_DIASTOLE>>_pace, _beat_cb, this);
+    }
   }
-  _index >=(2*_patternLength-1) ? _index =0 : _index++;
+  (_index>>1) >=_beats ? _index =1 : _index++;
 }
 
 void Heartbeat::set_led(unsigned char led){
   _led =led;
-  pinMode(led, OUTPUT);
+  pinMode(_led, OUTPUT);
 }
 
 void Heartbeat::led_on(){

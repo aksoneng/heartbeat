@@ -11,6 +11,9 @@
 #define _HEARTBEAT_WEAK       1
 #define _HEARTBEAT_STRONG     50
 
+#define _HEARTBEAT_DIASTOLE   200
+#define _HEARTBEAT_SYSTOLE    800
+
 class Heartbeat{
 public:
 	Heartbeat(unsigned char led, bool invert);
@@ -20,6 +23,9 @@ public:
   void set_strength(unsigned char strength);
 	void start();
 	void stop();
+  void set_beat(unsigned char beats);
+  void add_beat();
+  void remove_beat();
 
 private:
 	static void _beat_cb(void *context);
@@ -31,14 +37,12 @@ private:
 	Timer _beat_t;
 	unsigned char _beat_job;
   unsigned char _led;
-  unsigned char _led_state;
   unsigned char _pace;
-  unsigned char _strength         =_HEARTBEAT_STRONG;
-  unsigned short int _pattern[2]  = {200, 800};
-  unsigned char _patternLength    = sizeof(_pattern)/sizeof(_pattern[0]);
   unsigned char _index;
-  unsigned char _on     =1;
-  unsigned char _off    =0;
+  unsigned char _strength =_HEARTBEAT_STRONG;
+  unsigned char _beats    =2;
+  unsigned char _on       =1;
+  unsigned char _off      =0;
 };
 
 #endif
