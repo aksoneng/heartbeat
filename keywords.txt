@@ -7,27 +7,27 @@
 #######################################
 
 Heartbeat	KEYWORD1
-_beat_t   KEYWORD1
-_led      KEYWORD1
-_pace     KEYWORD1
-pattern   KEYWORD1
-_patternLength KEYWORD1
-_index    KEYWORD1
+_beat_t	KEYWORD1
+_led	KEYWORD1
+_pace	KEYWORD1
+pattern	KEYWORD1
+_patternLength	KEYWORD1
+_index	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-update    KEYWORD2
-set_pace  KEYWORD2
-start     KEYWORD2
-stop      KEYWORD2
-_callbackBeat KEYWORD2
-beat      KEYWORD2
-set_led   KEYWORD2
-led_on    KEYWORD2
-led_off   KEYWORD2
-_beat_job KEYWORD2
+update	KEYWORD2
+set_pace	KEYWORD2
+start	KEYWORD2
+stop	KEYWORD2
+_callbackBeat	KEYWORD2
+beat	KEYWORD2
+set_led	KEYWORD2
+led_on	KEYWORD2
+led_off	KEYWORD2
+_beat_job	KEYWORD2
 
 
 #######################################
